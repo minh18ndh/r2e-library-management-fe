@@ -42,17 +42,10 @@ const CategoriesPage = () => {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
+      width: 1600,
       render: (text, record) => (
         <a onClick={() => navigate(`/manage-categories/${record.id}`)}>{text}</a>
       ),
-    },
-    {
-      // Dummy invisible column to match layout
-      title: '',
-      dataIndex: 'spacer',
-      key: 'spacer',
-      width: 805,
-      render: () => null,
     },
     {
       title: 'Action',

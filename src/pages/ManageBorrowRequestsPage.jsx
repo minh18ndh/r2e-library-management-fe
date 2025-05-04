@@ -39,34 +39,33 @@ const ManageBorrowRequestsPage = () => {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
+      width: 800,
       render: (status) => {
         const { label, color } = statusMap[status] || {};
         return <Tag color={color}>{label}</Tag>;
       },
     },
     {
-      // Dummy invisible column to match layout
-      title: '',
-      dataIndex: 'spacer',
-      key: 'spacer',
-      width: 450,
-      render: () => null,
-    },
-    {
       title: 'Action',
-      key: 'action',
+      key: 'action1',
       render: (_, record) => (
         <Space>
           <Button
-            type="link"
-            icon={<EyeOutlined />}
+            type="primary"
             onClick={() => navigate(`/manage-borrow-requests/${record.id}`)}
           >
             View Details
           </Button>
-
+        </Space>
+      ),
+    },
+    {
+      title: 'Approve/Reject',
+      key: 'action2',
+      render: (_, record) => (
+        <Space>
           <Button
-            type="primary"
+            primary
             icon={<CheckOutlined />}
             onClick={() => handleUpdate(record.id, 1)}
             disabled={record.status !== 0 || isUpdating}

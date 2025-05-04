@@ -29,26 +29,18 @@ const MyBorrowRequestsPage = () => {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
+      width: 800,
       render: (status) => {
         const { label, color } = statusMap[status] || {};
         return <Tag color={color}>{label}</Tag>;
       },
     },
     {
-      // Dummy invisible column to match layout
-      title: '',
-      dataIndex: 'spacer',
-      key: 'spacer',
-      width: 450,
-      render: () => null,
-    },
-    {
       title: 'Action',
       key: 'action',
       render: (_, record) => (
         <Button
-          type="link"
-          icon={<EyeOutlined />}
+          type="primary"
           onClick={() => navigate(`/my-borrow-requests/${record.id}`)}
         >
           View Details
