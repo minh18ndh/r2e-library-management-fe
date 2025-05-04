@@ -1,0 +1,53 @@
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
+export const categoryApi = createApi({
+  reducerPath: 'categoryApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'http://localhost:5159/api',
+    prepareHeaders: (headers) => {
+      const token = localStorage.getItem('auth_token');
+      if (token) headers.set('Authorization', `Bearer ${token}`);
+      return headers;
+    },
+  }),
+  tagTypes: ['Category'],
+  endpoints: (builder) => ({
+    getCategories: builder.query({
+      query: () => '/categories',
+      providesTags: ['Category'],
+    }),
+
+    addCategory: builder.mutation({
+      query: (category) => ({
+        url: '/categories',
+        method: 'POST',
+        body: category,
+      }),
+      invalidatesTags: ['Category'],
+    }),
+
+    updateCategory: builder.mutation({
+      query: ({ id, ...rest }) => ({
+        url: `/categories/${id}`,
+        method: 'PUT',
+        body: rest,
+      }),
+      invalidatesTags: ['Category'],
+    }),
+
+    deleteCategory: builder.mutation({
+      query: (id) => ({
+        url: `/categories/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Category'],
+    }),
+  }),
+});
+
+export const {
+  useGetCategoriesQuery,
+  useAddCategoryMutation,
+  useUpdateCategoryMutation,
+  useDeleteCategoryMutation,
+} = categoryApi;
