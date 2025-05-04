@@ -65,14 +65,16 @@ const ManageBorrowRequestsPage = () => {
       render: (_, record) => (
         <Space>
           <Button
-            primary
+            color="green"
+            variant="outlined"
             icon={<CheckOutlined />}
             onClick={() => handleUpdate(record.id, 1)}
             disabled={record.status !== 0 || isUpdating}
           />
 
           <Button
-            danger
+            color="danger"
+            variant="outlined"
             icon={<CloseOutlined />}
             onClick={() => handleUpdate(record.id, 2)}
             disabled={record.status !== 0 || isUpdating}
