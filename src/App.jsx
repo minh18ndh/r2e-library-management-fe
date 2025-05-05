@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import RootLayout from './components/RootLayout';
 import ProtectedLayout from './components/ProtectedLayout';
 import LoginPage from './pages/LoginPage';
@@ -22,7 +22,13 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Public login route */}
         <Route path="/login" element={<LoginPage />} />
+
+        {/* Redirect root "/" to login */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+
+        {/* Protected Routes */}
         <Route path="/" element={<RootLayout />}>
           {/* Routes accessible by both Admin and User */}
           <Route element={<ProtectedLayout allowedRoles={['Admin', 'User']} />}>

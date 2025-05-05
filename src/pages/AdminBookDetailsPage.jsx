@@ -25,7 +25,7 @@ const AdminBookDetailsPage = () => {
       await updateBook({ id: book.id, ...values }).unwrap();
       message.success('Book updated successfully');
       navigate('/manage-books');
-    } catch {
+    } catch (err) {
       message.error('Failed to update book');
     }
   };

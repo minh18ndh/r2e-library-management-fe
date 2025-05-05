@@ -1,4 +1,5 @@
 import { Alert, Button, message, Modal, Space, Spin, Table, Typography } from 'antd';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useDeleteBookMutation, useGetBooksQuery } from '../store/services/bookApi';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -22,8 +23,9 @@ const AdminBooksPage = () => {
       try {
         await deleteBook(selectedId).unwrap();
         message.success('Book deleted successfully');
-      } catch {
-        message.error('Failed to delete book');
+      } catch (err) {
+        const detail = err?.data?.errors?.[0]?.detail;
+        message.error(detail || 'Failed to delete book');
       }
       setOpen(false);
       setSelectedId(null);
@@ -62,8 +64,18 @@ const AdminBooksPage = () => {
       key: 'action',
       render: (id) => (
         <Space size="middle">
-          <Button type="primary" onClick={() => navigate(`/manage-books/${id}`)}>Edit</Button>
-          <Button danger onClick={() => showModal(id)}>Delete</Button>
+          <Space size="middle">
+            <Button
+              icon={<EditOutlined />}
+              onClick={() => navigate(`/manage-books/${id}`)}
+            />
+            <Button
+              danger
+              icon={<DeleteOutlined />}
+              onClick={() => showModal(id)}
+            />
+          </Space>
+
         </Space>
       ),
     },
@@ -71,11 +83,15 @@ const AdminBooksPage = () => {
 
   return (
     <div className="min-h-screen p-8">
-      <Title level={1}>Books</Title>
-
-      <Button type="primary" style={{ marginBottom: '16px' }} onClick={() => navigate('/manage-books/create')}>
-        + Add Book
-      </Button>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+        <Title level={1} style={{ margin: 0 }}>Books</Title>
+        <Button
+          type="primary"
+          size="large"
+          onClick={() => navigate('/manage-books/create')}>
+          + Add Book
+        </Button>
+      </div>
 
       <Table columns={columns} dataSource={data} rowKey="id" />
 

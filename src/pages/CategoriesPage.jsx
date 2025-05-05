@@ -1,4 +1,5 @@
 import { Alert, Button, message, Modal, Space, Spin, Table, Typography } from 'antd';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useDeleteCategoryMutation, useGetCategoriesQuery } from '../store/services/categoryApi';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -22,8 +23,9 @@ const CategoriesPage = () => {
       try {
         await deleteCategory(selectedId).unwrap();
         message.success('Category deleted successfully');
-      } catch {
-        message.error('Failed to delete category');
+      } catch (err) {
+        const detail = err?.data?.errors?.[0]?.detail;
+        message.error(detail || 'Failed to delete category');
       }
       setOpen(false);
       setSelectedId(null);
@@ -53,8 +55,15 @@ const CategoriesPage = () => {
       key: 'action',
       render: (id) => (
         <Space size="middle">
-          <Button type="primary" onClick={() => navigate(`/manage-categories/${id}`)}>Edit</Button>
-          <Button danger onClick={() => showModal(id)}>Delete</Button>
+          <Button
+            icon={<EditOutlined />}
+            onClick={() => navigate(`/manage-books/${id}`)}
+          />
+          <Button
+            danger
+            icon={<DeleteOutlined />}
+            onClick={() => showModal(id)}
+          />
         </Space>
       ),
     },
@@ -62,11 +71,15 @@ const CategoriesPage = () => {
 
   return (
     <div className="min-h-screen p-8">
-      <Title level={1}>Categories</Title>
-
-      <Button type="primary" style={{ marginBottom: '16px' }} onClick={() => navigate('/manage-categories/create')}>
-        + Add Category
-      </Button>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+        <Title level={1} style={{ margin: 0 }}>Categories</Title>
+        <Button
+          type="primary"
+          size="large"
+          onClick={() => navigate('/manage-categories/create')}>
+          + Add Category
+        </Button>
+      </div>
 
       <Table columns={columns} dataSource={data} rowKey="id" />
 

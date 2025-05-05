@@ -14,7 +14,7 @@ const CreateCategoryPage = () => {
       await addCategory(values).unwrap();
       message.success('Category created successfully');
       navigate('/manage-categories');
-    } catch {
+    } catch (err) {
       message.error('Failed to create category');
     }
   };

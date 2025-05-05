@@ -34,7 +34,7 @@ const Header = () => {
   return (
     <Layout.Header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Link to="/home" style={{ color: '#fff', marginRight: '20px', fontWeight: 'bold' }}>
+        <Link to="/home" style={{ color: '#fff', marginRight: '35px', fontWeight: 'bold' }}>
           MAISON DES LIVRES
         </Link>
         <Menu theme="dark" mode="horizontal" selectedKeys={[selectedKey || '']} items={menuItems} />

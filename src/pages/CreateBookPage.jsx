@@ -16,7 +16,7 @@ const CreateBookPage = () => {
       await addBook(values).unwrap();
       message.success('Book created successfully');
       navigate('/manage-books');
-    } catch {
+    } catch (err) {
       message.error('Failed to create book');
     }
   };

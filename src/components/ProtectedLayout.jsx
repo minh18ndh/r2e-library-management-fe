@@ -10,7 +10,7 @@ const ProtectedLayout = ({ allowedRoles }) => {
 
   const role = getUserRole();
   if (!allowedRoles.includes(role)) {
-    return <Navigate to="/books" replace />;
+    return <Navigate to="/home" replace />;
   }
 
   return <Outlet />;

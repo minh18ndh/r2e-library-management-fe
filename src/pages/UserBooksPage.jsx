@@ -1,4 +1,4 @@
-import { Alert, Button, message, Modal, Space, Spin, Table, Typography, Checkbox } from 'antd';
+import { Alert, Button, message, Modal, Spin, Table, Typography, Checkbox, Tag } from 'antd';
 import { useGetBooksQuery } from '../store/services/bookApi';
 import { useAddBorrowRequestMutation } from '../store/services/myBorrowRequestApi';
 import { useNavigate } from 'react-router-dom';
@@ -41,7 +41,8 @@ const UserBooksPage = () => {
       setSelectedBooks([]);
       setConfirmBorrowVisible(false);
     } catch (err) {
-      message.error('Failed to submit borrow request');
+      const detail = err?.data?.errors?.[0]?.detail;
+      message.error(detail || 'Failed to submit borrow request');
     }
   };
 
@@ -53,12 +54,14 @@ const UserBooksPage = () => {
       title: '',
       dataIndex: 'id',
       key: 'checkbox',
-      render: (id) => (
-        <Checkbox
-          disabled={!selectedBooks.includes(id) && selectedBooks.length >= 5}
-          checked={selectedBooks.includes(id)}
-          onChange={(e) => handleCheckboxChange(id, e.target.checked)}
-        />
+      render: (_, record) => (
+        record.quantity > 0 ? (
+          <Checkbox
+          // disabled={!selectedBooks.includes(id) && selectedBooks.length >= 5}
+            checked={selectedBooks.includes(record.id)}
+            onChange={(e) => handleCheckboxChange(record.id, e.target.checked)}
+          />
+        ) : null
       )
     }] : []),
     {
@@ -70,14 +73,22 @@ const UserBooksPage = () => {
       ),
     },
     {
+      title: 'Author',
+      dataIndex: 'author',
+      key: 'author',
+    },
+    {
       title: 'Category',
       dataIndex: 'categoryName',
       key: 'category',
     },
     {
-      title: 'Author',
-      dataIndex: 'author',
-      key: 'author',
+      title: 'Quantity',
+      dataIndex: 'quantity',
+      key: 'quantity',
+      render: (quantity) => (
+        <Tag color={quantity === 0 ? 'red' : 'green'}>{quantity}</Tag>
+      )
     },
   ];
 

@@ -22,7 +22,7 @@ const CategoryDetailsPage = () => {
       await updateCategory({ id: category.id, ...values }).unwrap();
       message.success('Category updated successfully');
       navigate('/manage-categories');
-    } catch {
+    } catch (err) {
       message.error('Failed to update category');
     }
   };

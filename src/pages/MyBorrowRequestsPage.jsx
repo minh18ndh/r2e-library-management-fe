@@ -1,5 +1,4 @@
 import { Table, Typography, Tag, Spin, Alert, Button } from 'antd';
-import { EyeOutlined } from '@ant-design/icons';
 import { useGetMyBorrowRequestsQuery } from '../store/services/myBorrowRequestApi';
 import { useNavigate } from 'react-router-dom';
 
@@ -29,7 +28,7 @@ const MyBorrowRequestsPage = () => {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
-      width: 800,
+      width: 1000,
       render: (status) => {
         const { label, color } = statusMap[status] || {};
         return <Tag color={color}>{label}</Tag>;

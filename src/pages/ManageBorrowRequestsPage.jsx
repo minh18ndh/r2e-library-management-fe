@@ -1,5 +1,5 @@
 import { Table, Typography, Tag, Button, message, Space, Spin, Alert } from 'antd';
-import { CheckOutlined, CloseOutlined, EyeOutlined } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { useGetAllBorrowRequestsQuery, useUpdateRequestStatusMutation } from '../store/services/manageBorrowRequestApi';
 
@@ -20,8 +20,8 @@ const ManageBorrowRequestsPage = () => {
     try {
       await updateStatus({ id, status }).unwrap();
       message.success(`Request ${statusMap[status].label.toLowerCase()} successfully`);
-    } catch {
-      message.error('Failed to update status');
+    } catch (err) {
+      message.error('Failed to update request status');
     }
   };
 
