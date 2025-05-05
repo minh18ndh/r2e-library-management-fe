@@ -11,21 +11,21 @@ const AdminBookDetailsPage = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
 
-  const { data: books, isLoading: isBooksLoading, error } = useGetBooksQuery({});
+  const { data: books, isLoading: isBooksLoading, error: bookError } = useGetBooksQuery();
   const { data: categories, isLoading: isCategoriesLoading } = useGetCategoriesQuery();
   const [updateBook, { isLoading: isUpdating }] = useUpdateBookMutation();
 
-  const book = books?.find((b) => String(b.id) === id);
+  const book = books?.find(b => String(b.id) === id);
 
   if (isBooksLoading || isCategoriesLoading) return <Spin />;
-  if (error || !book) return <Alert message="Book not found" type="error" showIcon />;
+  if (bookError || !book) return <Alert message="Book not found" type="error" showIcon />;
 
   const handleFinish = async (values) => {
     try {
       await updateBook({ id: book.id, ...values }).unwrap();
       message.success('Book updated successfully');
       navigate('/manage-books');
-    } catch (err) {
+    } catch {
       message.error('Failed to update book');
     }
   };
@@ -33,14 +33,8 @@ const AdminBookDetailsPage = () => {
   return (
     <div className="min-h-screen p-8">
       <Title level={2} className="!mb-6">Edit Book</Title>
-
       <Card className="max-w-xl w-full">
-        <Form
-          layout="vertical"
-          form={form}
-          initialValues={{ ...book, categoryId: book.categoryId }}
-          onFinish={handleFinish}
-        >
+        <Form layout="vertical" form={form} initialValues={{ ...book, categoryId: book.categoryId }} onFinish={handleFinish}>
           <Form.Item name="title" label="Title" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
@@ -55,7 +49,7 @@ const AdminBookDetailsPage = () => {
           </Form.Item>
           <Form.Item name="categoryId" label="Category" rules={[{ required: true }]}>
             <Select placeholder="Select category">
-              {categories?.map((cat) => (
+              {categories?.map(cat => (
                 <Select.Option key={cat.id} value={cat.id}>
                   {cat.name}
                 </Select.Option>

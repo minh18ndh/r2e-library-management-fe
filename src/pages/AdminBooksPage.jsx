@@ -1,4 +1,4 @@
-import { Alert, Button, message, Modal, Space, Spin, Table, Typography } from 'antd';
+import { Alert, Button, message, Modal, Space, Spin, Table, Typography, Tag } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useDeleteBookMutation, useGetBooksQuery } from '../store/services/bookApi';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +8,7 @@ const { Title } = Typography;
 
 const AdminBooksPage = () => {
   const navigate = useNavigate();
+
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const { data, error, isLoading } = useGetBooksQuery({});
@@ -49,14 +50,22 @@ const AdminBooksPage = () => {
       ),
     },
     {
+      title: 'Author',
+      dataIndex: 'author',
+      key: 'author',
+    },
+    {
       title: 'Category',
       dataIndex: 'categoryName',
       key: 'category',
     },
     {
-      title: 'Author',
-      dataIndex: 'author',
-      key: 'author',
+      title: 'Quantity',
+      dataIndex: 'quantity',
+      key: 'quantity',
+      render: (quantity) => (
+        <Tag color={quantity === 0 ? 'red' : 'green'}>{quantity}</Tag>
+      )
     },
     {
       title: 'Action',

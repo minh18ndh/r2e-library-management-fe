@@ -13,7 +13,7 @@ const UserBooksPage = () => {
   const [selectedBooks, setSelectedBooks] = useState([]);
   const [confirmBorrowVisible, setConfirmBorrowVisible] = useState(false);
 
-  const { data, error, isLoading } = useGetBooksQuery({});
+  const { data, error, isLoading, refetch: refetchBooks } = useGetBooksQuery({});
   const [addBorrowRequest, { isLoading: isSubmitting }] = useAddBorrowRequestMutation();
 
   const toggleSelectionMode = () => {
@@ -36,6 +36,7 @@ const UserBooksPage = () => {
   const handleRequestBorrow = async () => {
     try {
       await addBorrowRequest(selectedBooks).unwrap();
+      await refetchBooks(); // force re-fetch books with updated quantity
       message.success('Borrow request submitted');
       setIsSelecting(false);
       setSelectedBooks([]);

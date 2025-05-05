@@ -2,6 +2,7 @@ import { Table, Typography, Tag, Button, message, Space, Spin, Alert } from 'ant
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { useGetAllBorrowRequestsQuery, useUpdateRequestStatusMutation } from '../store/services/manageBorrowRequestApi';
+import { useGetBooksQuery } from '../store/services/bookApi';
 
 const { Title } = Typography;
 
@@ -14,11 +15,13 @@ const statusMap = {
 const ManageBorrowRequestsPage = () => {
   const navigate = useNavigate();
   const { data, error, isLoading } = useGetAllBorrowRequestsQuery();
+  const { refetch: refetchBooks } = useGetBooksQuery();
   const [updateStatus, { isLoading: isUpdating }] = useUpdateRequestStatusMutation();
 
   const handleUpdate = async (id, status) => {
     try {
       await updateStatus({ id, status }).unwrap();
+      await refetchBooks();
       message.success(`Request ${statusMap[status].label.toLowerCase()} successfully`);
     } catch {
       message.error('Failed to update request status');

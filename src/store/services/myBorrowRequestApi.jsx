@@ -1,15 +1,9 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
+import baseQueryWithRefresh from '../baseQueryWithRefresh';
 
 export const myBorrowRequestApi = createApi({
   reducerPath: 'myBorrowRequestApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5159/api',
-    prepareHeaders: (headers) => {
-      const token = localStorage.getItem('auth_token');
-      if (token) headers.set('Authorization', `Bearer ${token}`);
-      return headers;
-    },
-  }),
+  baseQuery: baseQueryWithRefresh,
   tagTypes: ['MyBorrowRequest'],
   endpoints: (builder) => ({
     addBorrowRequest: builder.mutation({
@@ -18,7 +12,7 @@ export const myBorrowRequestApi = createApi({
         method: 'POST',
         body: { bookIds },
       }),
-      invalidatesTags: ['MyBorrowRequest'],
+      invalidatesTags: ['MyBorrowRequest', 'Book'],
     }),
 
     getMyBorrowRequests: builder.query({

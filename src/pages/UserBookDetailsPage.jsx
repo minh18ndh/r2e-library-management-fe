@@ -12,13 +12,11 @@ const UserBookDetailsPage = () => {
   const { data: books, isLoading: isBooksLoading, error: bookError } = useGetBooksQuery();
   const { data: categories, isLoading: isCategoriesLoading } = useGetCategoriesQuery();
 
+  const book = books?.find(b => String(b.id) === id);
+  const category = categories?.find(c => c.id === book?.categoryId);
+
   if (isBooksLoading || isCategoriesLoading) return <Spin />;
-  if (bookError) return <Alert message="Failed to load book" type="error" showIcon />;
-
-  const book = books?.find((b) => String(b.id) === id);
-  const category = categories?.find((c) => c.id === book?.categoryId);
-
-  if (!book) return <Alert message="Book not found" type="error" showIcon />;
+  if (bookError || !book) return <Alert message="Book not found" type="error" showIcon />;
 
   return (
     <div className="min-h-screen p-8">

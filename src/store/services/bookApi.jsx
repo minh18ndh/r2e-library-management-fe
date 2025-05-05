@@ -1,15 +1,9 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
+import baseQueryWithRefresh from '../baseQueryWithRefresh';
 
 export const bookApi = createApi({
   reducerPath: 'bookApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5159/api',
-    prepareHeaders: (headers) => {
-      const token = localStorage.getItem('auth_token');
-      if (token) headers.set('Authorization', `Bearer ${token}`);
-      return headers;
-    },
-  }),
+  baseQuery: baseQueryWithRefresh,
   tagTypes: ['Book'],
   endpoints: (builder) => ({
     getBooks: builder.query({
