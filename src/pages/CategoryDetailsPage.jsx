@@ -29,8 +29,8 @@ const CategoryDetailsPage = () => {
 
   return (
     <div className="min-h-screen p-8">
-      <Title level={2}>Category Details</Title>
-      <Card style={{ maxWidth: 600 }}>
+      <Title level={2} className="!mb-6">Category Details</Title>
+      <Card className="max-w-xl w-full">
         <Form layout="vertical" form={form} initialValues={category} onFinish={handleFinish}>
           <Form.Item name="name" label="Name" rules={[{ required: true }]}>
             <Input />

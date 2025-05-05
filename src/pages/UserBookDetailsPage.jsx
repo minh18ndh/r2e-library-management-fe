@@ -9,18 +9,20 @@ const UserBookDetailsPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { data: books, isLoading: isBooksLoading, error } = useGetBooksQuery({});
+  const { data: books, isLoading: isBooksLoading, error: bookError } = useGetBooksQuery();
   const { data: categories, isLoading: isCategoriesLoading } = useGetCategoriesQuery();
+
+  if (isBooksLoading || isCategoriesLoading) return <Spin />;
+  if (bookError) return <Alert message="Failed to load book" type="error" showIcon />;
 
   const book = books?.find((b) => String(b.id) === id);
   const category = categories?.find((c) => c.id === book?.categoryId);
 
-  if (isBooksLoading || isCategoriesLoading) return <Spin />;
-  if (error || !book) return <Alert message="Book not found" type="error" showIcon />;
+  if (!book) return <Alert message="Book not found" type="error" showIcon />;
 
   return (
     <div className="min-h-screen p-8">
-      <Title level={2} style={{ marginBottom: 24 }}>Book Details</Title>
+      <Title level={2} className="mb-6">Book Details</Title>
       <Card style={{ maxWidth: 700 }}>
         <Typography>
           <Title level={4}>Title</Title>

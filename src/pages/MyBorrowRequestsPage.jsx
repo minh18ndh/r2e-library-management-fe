@@ -1,6 +1,6 @@
 import { Table, Typography, Tag, Spin, Alert, Button } from 'antd';
-import { useGetMyBorrowRequestsQuery } from '../store/services/myBorrowRequestApi';
 import { useNavigate } from 'react-router-dom';
+import { useGetMyBorrowRequestsQuery } from '../store/services/myBorrowRequestApi';
 
 const { Title } = Typography;
 
@@ -28,7 +28,6 @@ const MyBorrowRequestsPage = () => {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
-      width: 1000,
       render: (status) => {
         const { label, color } = statusMap[status] || {};
         return <Tag color={color}>{label}</Tag>;
@@ -38,10 +37,7 @@ const MyBorrowRequestsPage = () => {
       title: 'Action',
       key: 'action',
       render: (_, record) => (
-        <Button
-          type="primary"
-          onClick={() => navigate(`/my-borrow-requests/${record.id}`)}
-        >
+        <Button type="primary" onClick={() => navigate(`/my-borrow-requests/${record.id}`)}>
           View Details
         </Button>
       ),

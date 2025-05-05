@@ -44,7 +44,7 @@ const CategoriesPage = () => {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      width: 1600,
+      width: 1200,
       render: (text, record) => (
         <a onClick={() => navigate(`/manage-categories/${record.id}`)}>{text}</a>
       ),
@@ -57,7 +57,7 @@ const CategoriesPage = () => {
         <Space size="middle">
           <Button
             icon={<EditOutlined />}
-            onClick={() => navigate(`/manage-books/${id}`)}
+            onClick={() => navigate(`/manage-categories/${id}`)}
           />
           <Button
             danger
@@ -71,12 +71,13 @@ const CategoriesPage = () => {
 
   return (
     <div className="min-h-screen p-8">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-        <Title level={1} style={{ margin: 0 }}>Categories</Title>
+      <div className="flex justify-between items-center mb-4">
+        <Title level={1} className="!mb-0">Categories</Title>
         <Button
           type="primary"
           size="large"
-          onClick={() => navigate('/manage-categories/create')}>
+          onClick={() => navigate('/manage-categories/create')}
+        >
           + Add Category
         </Button>
       </div>

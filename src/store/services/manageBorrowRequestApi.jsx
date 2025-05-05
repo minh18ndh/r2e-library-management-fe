@@ -23,7 +23,7 @@ export const manageBorrowRequestApi = createApi({
         method: 'PUT',
         body: { status },
       }),
-      invalidatesTags: ['BorrowRequest'],
+      invalidatesTags: ['Book', 'BorrowRequest'],
     }),
   }),
 });

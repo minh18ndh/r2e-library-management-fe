@@ -1,15 +1,14 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Layout, Menu, Button } from 'antd';
-import { getUserRole, isLoggedIn } from '../utils/auth';
+import { getUserRole } from '../utils/auth';
 
 const Header = () => {
   const location = useLocation();
-  const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('refresh_token');
-    navigate('/login');
+    window.location.href = '/login'; // force refresh
   };
 
   const role = getUserRole();
@@ -32,14 +31,20 @@ const Header = () => {
   const selectedKey = menuItems.find(item => location.pathname.includes(item.key))?.key;
 
   return (
-    <Layout.Header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Link to="/home" style={{ color: '#fff', marginRight: '35px', fontWeight: 'bold' }}>
+    <Layout.Header className="bg-[#1e1e2f] flex justify-between items-center px-6">
+      <div className="flex items-center">
+        <Link to="/home" className="!text-white font-bold mr-9">
           MAISON DES LIVRES
         </Link>
-        <Menu theme="dark" mode="horizontal" selectedKeys={[selectedKey || '']} items={menuItems} />
+        <Menu
+          theme="dark"
+          mode="horizontal"
+          selectedKeys={[selectedKey || '']}
+          items={menuItems}
+          className="bg-[#1e1e2f]"
+        />
       </div>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div className="flex items-center">
         <Button onClick={handleLogout} type="primary" danger>
           Logout
         </Button>

@@ -17,6 +17,7 @@ import CategoryDetailsPage from './pages/CategoryDetailsPage';
 import ManageBorrowRequestsPage from './pages/ManageBorrowRequestsPage';
 import MyBorrowRequestsPage from './pages/MyBorrowRequestsPage';
 import BorrowRequestDetailsPage from "./pages/BorrowRequestDetailsPage";
+import RegisterPage from "./pages/RegisterPage";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
       <Routes>
         {/* Public login route */}
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
 
         {/* Redirect root "/" to login */}
         <Route path="/" element={<Navigate to="/login" replace />} />

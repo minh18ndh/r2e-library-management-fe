@@ -32,15 +32,13 @@ const AdminBookDetailsPage = () => {
 
   return (
     <div className="min-h-screen p-8">
-      <Title level={2}>Edit Book</Title>
-      <Card style={{ maxWidth: 600 }}>
+      <Title level={2} className="!mb-6">Edit Book</Title>
+
+      <Card className="max-w-xl w-full">
         <Form
           layout="vertical"
           form={form}
-          initialValues={{
-            ...book,
-            categoryId: book.categoryId, // set dropdown initial value
-          }}
+          initialValues={{ ...book, categoryId: book.categoryId }}
           onFinish={handleFinish}
         >
           <Form.Item name="title" label="Title" rules={[{ required: true }]}>

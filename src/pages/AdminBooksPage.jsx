@@ -64,18 +64,15 @@ const AdminBooksPage = () => {
       key: 'action',
       render: (id) => (
         <Space size="middle">
-          <Space size="middle">
-            <Button
-              icon={<EditOutlined />}
-              onClick={() => navigate(`/manage-books/${id}`)}
-            />
-            <Button
-              danger
-              icon={<DeleteOutlined />}
-              onClick={() => showModal(id)}
-            />
-          </Space>
-
+          <Button
+            icon={<EditOutlined />}
+            onClick={() => navigate(`/manage-books/${id}`)}
+          />
+          <Button
+            danger
+            icon={<DeleteOutlined />}
+            onClick={() => showModal(id)}
+          />
         </Space>
       ),
     },
@@ -83,12 +80,13 @@ const AdminBooksPage = () => {
 
   return (
     <div className="min-h-screen p-8">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-        <Title level={1} style={{ margin: 0 }}>Books</Title>
+      <div className="flex justify-between items-center mb-4">
+        <Title level={1} className="!mb-0">Books</Title>
         <Button
           type="primary"
           size="large"
-          onClick={() => navigate('/manage-books/create')}>
+          onClick={() => navigate('/manage-books/create')}
+        >
           + Add Book
         </Button>
       </div>

@@ -21,8 +21,8 @@ const CreateCategoryPage = () => {
 
   return (
     <div className="min-h-screen p-8">
-      <Title level={2}>Add New Category</Title>
-      <Card style={{ maxWidth: 600 }}>
+      <Title level={2} className="!mb-6">Add New Category</Title>
+      <Card className="max-w-xl w-full">
         <Form layout="vertical" form={form} onFinish={handleFinish}>
           <Form.Item name="name" label="Name" rules={[{ required: true }]}>
             <Input />

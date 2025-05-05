@@ -26,8 +26,8 @@ const CreateBookPage = () => {
 
   return (
     <div className="min-h-screen p-8">
-      <Title level={2}>Add New Book</Title>
-      <Card style={{ maxWidth: 600 }}>
+      <Title level={2} className="!mb-6">Add New Book</Title>
+      <Card className="max-w-xl w-full">
         <Form layout="vertical" form={form} onFinish={handleFinish}>
           <Form.Item name="title" label="Title" rules={[{ required: true }]}>
             <Input />

@@ -20,7 +20,7 @@ const ManageBorrowRequestsPage = () => {
     try {
       await updateStatus({ id, status }).unwrap();
       message.success(`Request ${statusMap[status].label.toLowerCase()} successfully`);
-    } catch (err) {
+    } catch {
       message.error('Failed to update request status');
     }
   };
@@ -39,7 +39,6 @@ const ManageBorrowRequestsPage = () => {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
-      width: 800,
       render: (status) => {
         const { label, color } = statusMap[status] || {};
         return <Tag color={color}>{label}</Tag>;
@@ -47,21 +46,16 @@ const ManageBorrowRequestsPage = () => {
     },
     {
       title: 'Action',
-      key: 'action1',
+      key: 'view',
       render: (_, record) => (
-        <Space>
-          <Button
-            type="primary"
-            onClick={() => navigate(`/manage-borrow-requests/${record.id}`)}
-          >
-            View Details
-          </Button>
-        </Space>
+        <Button type="primary" onClick={() => navigate(`/manage-borrow-requests/${record.id}`)}>
+          View Details
+        </Button>
       ),
     },
     {
-      title: 'Approve/Reject',
-      key: 'action2',
+      title: 'Approve / Reject',
+      key: 'decision',
       render: (_, record) => (
         <Space>
           <Button
@@ -71,10 +65,8 @@ const ManageBorrowRequestsPage = () => {
             onClick={() => handleUpdate(record.id, 1)}
             disabled={record.status !== 0 || isUpdating}
           />
-
           <Button
-            color="danger"
-            variant="outlined"
+            danger
             icon={<CloseOutlined />}
             onClick={() => handleUpdate(record.id, 2)}
             disabled={record.status !== 0 || isUpdating}

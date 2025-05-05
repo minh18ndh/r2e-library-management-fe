@@ -7,86 +7,97 @@ import { getUserRole } from '../utils/auth';
 const { Title, Text } = Typography;
 
 const statusMap = {
-    0: 'Pending',
-    1: 'Approved',
-    2: 'Rejected',
+  0: 'Pending',
+  1: 'Approved',
+  2: 'Rejected',
 };
 
 const BorrowRequestDetailsPage = () => {
-    const { id } = useParams();
-    const navigate = useNavigate();
-    const role = getUserRole();
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const role = getUserRole();
 
-    const {
-        data: userRequests,
-        isLoading: isUserLoading,
-        error: userError,
-    } = useGetMyBorrowRequestsQuery(undefined, { skip: role !== 'User' });
+  const {
+    data: userRequests,
+    isLoading: isUserLoading,
+    error: userError,
+  } = useGetMyBorrowRequestsQuery(undefined, { skip: role !== 'User' });
 
-    const {
-        data: adminRequests,
-        isLoading: isAdminLoading,
-        error: adminError,
-    } = useGetAllBorrowRequestsQuery(undefined, { skip: role !== 'Admin' });
+  const {
+    data: adminRequests,
+    isLoading: isAdminLoading,
+    error: adminError,
+  } = useGetAllBorrowRequestsQuery(undefined, { skip: role !== 'Admin' });
 
-    const data = role === 'Admin' ? adminRequests : userRequests;
-    const isLoading = role === 'Admin' ? isAdminLoading : isUserLoading;
-    const error = role === 'Admin' ? adminError : userError;
+  const data = role === 'Admin' ? adminRequests : userRequests;
+  const isLoading = role === 'Admin' ? isAdminLoading : isUserLoading;
+  const error = role === 'Admin' ? adminError : userError;
 
-    const request = data?.find((r) => String(r.id) === id);
+  const request = data?.find((r) => String(r.id) === id);
 
-    if (isLoading) return <Spin />;
-    if (error || !request) return <Alert message="Request not found" type="error" showIcon />;
+  if (isLoading) return <Spin />;
+  if (error || !request) return <Alert message="Request not found" type="error" showIcon />;
 
-    return (
-        <div className="min-h-screen p-8">
-            <Title level={2} style={{ marginBottom: 24 }}>Borrow Request Details</Title>
-            <Card style={{ maxWidth: 800 }}>
-                <Typography>
-                    {role === 'Admin' && (
-                        <>
-                            <Title level={4}>Requestor ID</Title>
-                            <Text>{request.requestorId}</Text>
-                            <Divider />
-                        </>
-                    )}
+  return (
+    <div className="min-h-screen p-8">
+      <div className="mb-6">
+        <Title level={2} className="!mb-0">Borrow Request Details</Title>
+      </div>
 
-                    <Title level={4}>Date Requested</Title>
-                    <Text>{new Date(request.dateRequested).toLocaleString()}</Text>
-
-                    <Divider />
-
-                    <Title level={4}>Status</Title>
-                    <Text>{statusMap[request.status]}</Text>
-
-                    <Divider />
-
-                    <Title level={4}>Books in Request</Title>
-                    <List
-                        bordered
-                        dataSource={request.details}
-                        renderItem={(item, index) => (
-                            <List.Item>
-                                <strong>{index + 1}. </strong> {item.bookTitle}
-                            </List.Item>
-                        )}
-                    />
-                </Typography>
-
+      <div className="max-w-3xl">
+        <Card>
+          <Typography className="space-y-4">
+            {role === 'Admin' && (
+              <div>
+                <Title level={4} className="!mb-1">Requestor ID</Title>
+                <Text>{request.requestorId}</Text>
                 <Divider />
+              </div>
+            )}
 
-                <Space>
-                    <Button
-                        onClick={() =>
-                            navigate(role === 'Admin' ? '/manage-borrow-requests' : '/my-borrow-requests')
-                        }
-                    >
-                        Back to Borrow Requests
-                    </Button>
-                </Space>
-            </Card>
-        </div>
-    );
+            <div>
+              <Title level={4} className="!mb-1">Date Requested</Title>
+              <Text>{new Date(request.dateRequested).toLocaleString()}</Text>
+              <Divider />
+            </div>
+
+            <div>
+              <Title level={4} className="!mb-1">Status</Title>
+              <Text>{statusMap[request.status]}</Text>
+              <Divider />
+            </div>
+
+            <div>
+              <Title level={4} className="!mb-2">Books in Request</Title>
+              <List
+                bordered
+                dataSource={request.details}
+                renderItem={(item, index) => (
+                  <List.Item>
+                    <strong>{index + 1}. </strong> {item.bookTitle}
+                  </List.Item>
+                )}
+              />
+            </div>
+          </Typography>
+
+          <Divider />
+
+          <div className="text-left">
+            <Space>
+              <Button
+                onClick={() =>
+                  navigate(role === 'Admin' ? '/manage-borrow-requests' : '/my-borrow-requests')
+                }
+              >
+                Back to Borrow Requests
+              </Button>
+            </Space>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
 };
 
 export default BorrowRequestDetailsPage;

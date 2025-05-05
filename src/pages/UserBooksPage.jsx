@@ -57,7 +57,7 @@ const UserBooksPage = () => {
       render: (_, record) => (
         record.quantity > 0 ? (
           <Checkbox
-          // disabled={!selectedBooks.includes(id) && selectedBooks.length >= 5}
+            // disabled={!selectedBooks.includes(id) && selectedBooks.length >= 5}
             checked={selectedBooks.includes(record.id)}
             onChange={(e) => handleCheckboxChange(record.id, e.target.checked)}
           />
@@ -94,9 +94,13 @@ const UserBooksPage = () => {
 
   return (
     <div className="min-h-screen p-8 relative">
-      <Title level={1}>Books</Title>
+      <Title level={1} className="!mb-4">Books</Title>
 
-      <Button type="primary" style={{ marginBottom: '16px' }} onClick={toggleSelectionMode}>
+      <Button
+        type="primary"
+        className="mb-4"
+        onClick={toggleSelectionMode}
+      >
         {isSelecting ? 'Cancel Selection' : 'Select Book to Borrow'}
       </Button>
 
@@ -111,20 +115,14 @@ const UserBooksPage = () => {
         cancelText="Cancel"
       >
         <p>
-          You are about to request to borrow <strong>{selectedBooks.length}</strong> book{selectedBooks.length > 1 ? 's' : ''}.
+          You are about to request to borrow <strong>{selectedBooks.length}</strong> book
+          {selectedBooks.length > 1 ? 's' : ''}.
           This will count against your 3 requests per month.
         </p>
       </Modal>
 
       {isSelecting && selectedBooks.length > 0 && (
-        <div
-          style={{
-            position: 'fixed',
-            bottom: 24,
-            right: 24,
-            zIndex: 1000,
-          }}
-        >
+        <div className="fixed bottom-6 right-6 z-50">
           <Button
             type="primary"
             size="large"
