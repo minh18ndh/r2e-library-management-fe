@@ -1,7 +1,7 @@
 import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'https://6eb7-14-232-74-239.ngrok-free.app/api',
+  baseUrl: 'http://localhost:5159/api',
   prepareHeaders: (headers) => {
     const token = localStorage.getItem('auth_token');
     if (token) headers.set('Authorization', `Bearer ${token}`);
