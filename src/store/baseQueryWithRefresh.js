@@ -13,7 +13,9 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithRefresh = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
-  if (result.error?.status === 401) {
+  const isLoginRequest = typeof args === 'object' && args?.url?.includes('/auth/login');
+
+  if (result.error?.status === 401 && !isLoginRequest) {
     const refreshToken = localStorage.getItem('refresh_token');
 
     // Try to refresh the token

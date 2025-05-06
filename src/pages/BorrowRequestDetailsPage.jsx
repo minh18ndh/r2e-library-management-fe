@@ -48,16 +48,50 @@ const BorrowRequestDetailsPage = () => {
         <Card>
           <Typography className="space-y-4">
             {role === 'Admin' && (
-              <div>
-                <Title level={4} className="!mb-1">Requestor ID</Title>
-                <Text>{request.requestorId}</Text>
-                <Divider />
-              </div>
+              <>
+                <div>
+                  <Title level={4} className="!mb-1">Requestor ID</Title>
+                  <Text>{request.requestorId}</Text>
+                  <Divider />
+                </div>
+                <div>
+                  <Title level={4} className="!mb-1">Requestor Name</Title>
+                  <Text>{request.requestorName}</Text>
+                  <Divider />
+                </div>
+              </>
+            )}
+
+            {request.approverId && (
+              <>
+                <div>
+                  <Title level={4} className="!mb-1">Moderator ID</Title>
+                  <Text>{request.approverId}</Text>
+                  <Divider />
+                </div>
+                <div>
+                  <Title level={4} className="!mb-1">Moderator Name</Title>
+                  <Text>{request.approverName}</Text>
+                  <Divider />
+                </div>
+              </>
             )}
 
             <div>
               <Title level={4} className="!mb-1">Date Requested</Title>
-              <Text>{new Date(request.dateRequested).toLocaleString()}</Text>
+              <Text>
+                {new Date(request.dateRequested + 'Z')
+                  .toLocaleString(undefined, {
+                    year: 'numeric',
+                    month: 'short',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: false
+                  })
+                  .replace(',', '')}
+              </Text>
               <Divider />
             </div>
 

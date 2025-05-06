@@ -31,7 +31,7 @@ const Header = () => {
   const selectedKey = menuItems.find(item => location.pathname.includes(item.key))?.key;
 
   return (
-    <Layout.Header className="bg-[#1e1e2f] flex justify-between items-center px-6">
+    <Layout.Header className="!bg-[#1e1e2f] flex justify-between items-center px-6">
       <div className="flex items-center">
         <Link to="/home" className="!text-white font-bold mr-9">
           MAISON DES LIVRES
@@ -41,7 +41,7 @@ const Header = () => {
           mode="horizontal"
           selectedKeys={[selectedKey || '']}
           items={menuItems}
-          className="bg-[#1e1e2f]"
+          className="!bg-[#1e1e2f]"
         />
       </div>
       <div className="flex items-center">

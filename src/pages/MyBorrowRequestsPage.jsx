@@ -22,7 +22,18 @@ const MyBorrowRequestsPage = () => {
       title: 'Date Requested',
       dataIndex: 'dateRequested',
       key: 'dateRequested',
-      render: (date) => new Date(date).toLocaleString(),
+      render: (utc) => {
+        const local = new Date(utc + 'Z');
+        return local.toLocaleString(undefined, {
+          year: 'numeric',
+          month: 'short',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false
+        }).replace(',', '');
+      }         
     },
     {
       title: 'Status',
