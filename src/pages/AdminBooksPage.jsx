@@ -1,17 +1,31 @@
-import { Alert, Button, message, Modal, Space, Spin, Table, Typography, Tag } from 'antd';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Alert, Button, Input, message, Modal, Select, Space, Spin, Table, Typography, Tag } from 'antd';
+import { EditOutlined, DeleteOutlined, SearchOutlined } from '@ant-design/icons';
 import { useDeleteBookMutation, useGetBooksQuery } from '../store/services/bookApi';
+import { useGetCategoriesQuery } from '../store/services/categoryApi';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import debounce from 'lodash.debounce';
 
 const { Title } = Typography;
+const { Option } = Select;
 
 const AdminBooksPage = () => {
   const navigate = useNavigate();
-
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
-  const { data, error, isLoading } = useGetBooksQuery({});
+
+  const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [categoryId, setCategoryId] = useState(null);
+  const [sortOrder, setSortOrder] = useState(null);
+
+  const { data: books, error, isLoading } = useGetBooksQuery({
+    search: debouncedSearch,
+    categoryId,
+    sort: sortOrder
+  });
+
+  const { data: categories } = useGetCategoriesQuery();
   const [deleteBook] = useDeleteBookMutation();
 
   const showModal = (id) => {
@@ -33,9 +47,22 @@ const AdminBooksPage = () => {
     }
   };
 
-  const handleCancel = () => {
-    setOpen(false);
+  const handleCancel = () => setOpen(false);
+
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+    debouncedChange(e.target.value);
   };
+
+  const debouncedChange = debounce((value) => {
+    setDebouncedSearch(value);
+  }, 400);
+
+  useEffect(() => {
+    return () => {
+      debouncedChange.cancel();
+    };
+  }, []);
 
   if (isLoading) return <Spin />;
   if (error) return <Alert message="Failed to load books" type="error" showIcon />;
@@ -91,16 +118,45 @@ const AdminBooksPage = () => {
     <div className="min-h-screen p-8">
       <div className="flex justify-between items-center mb-4">
         <Title level={1} className="!mb-0">Books</Title>
-        <Button
-          type="primary"
-          size="large"
-          onClick={() => navigate('/manage-books/create')}
-        >
-          + Add Book
-        </Button>
+        <div className="flex items-center gap-2">
+          <Input
+            placeholder="Search title..."
+            prefix={<SearchOutlined />}
+            value={search}
+            onChange={handleSearchChange}
+            allowClear
+          />
+          <Select
+            placeholder="Filter by category"
+            allowClear
+            value={categoryId}
+            onChange={setCategoryId}
+          >
+            {categories?.map(c => (
+              <Option key={c.id} value={c.id}>{c.name}</Option>
+            ))}
+          </Select>
+          <Select
+            placeholder="Sort title"
+            className="w-[230px]"
+            allowClear
+            value={sortOrder}
+            onChange={setSortOrder}
+          >
+            <Option value="asc">Title A → Z</Option>
+            <Option value="desc">Title Z → A</Option>
+          </Select>
+          <Button
+            type="primary"
+            size="large"
+            onClick={() => navigate('/manage-books/create')}
+          >
+            + Add Book
+          </Button>
+        </div>
       </div>
 
-      <Table columns={columns} dataSource={data} rowKey="id" />
+      <Table columns={columns} dataSource={books} rowKey="id" />
 
       <Modal
         open={open}

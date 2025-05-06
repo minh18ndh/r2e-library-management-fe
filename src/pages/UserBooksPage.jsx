@@ -1,10 +1,14 @@
-import { Alert, Button, message, Modal, Spin, Table, Typography, Checkbox, Tag } from 'antd';
+import { Alert, Button, Input, message, Modal, Select, Space, Spin, Table, Typography, Checkbox, Tag } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 import { useGetBooksQuery } from '../store/services/bookApi';
+import { useGetCategoriesQuery } from '../store/services/categoryApi';
 import { useAddBorrowRequestMutation } from '../store/services/myBorrowRequestApi';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import debounce from 'lodash.debounce';
 
 const { Title } = Typography;
+const { Option } = Select;
 
 const UserBooksPage = () => {
   const navigate = useNavigate();
@@ -13,7 +17,18 @@ const UserBooksPage = () => {
   const [selectedBooks, setSelectedBooks] = useState([]);
   const [confirmBorrowVisible, setConfirmBorrowVisible] = useState(false);
 
-  const { data, error, isLoading, refetch: refetchBooks } = useGetBooksQuery({});
+  const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [categoryId, setCategoryId] = useState(null);
+  const [sortOrder, setSortOrder] = useState(null);
+
+  const { data, error, isLoading, refetch: refetchBooks } = useGetBooksQuery({
+    search: debouncedSearch,
+    categoryId,
+    sort: sortOrder
+  });
+
+  const { data: categories } = useGetCategoriesQuery();
   const [addBorrowRequest, { isLoading: isSubmitting }] = useAddBorrowRequestMutation();
 
   const toggleSelectionMode = () => {
@@ -47,6 +62,21 @@ const UserBooksPage = () => {
     }
   };
 
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+    debouncedChange(e.target.value);
+  };
+
+  const debouncedChange = debounce((value) => {
+    setDebouncedSearch(value);
+  }, 400);
+
+  useEffect(() => {
+    return () => {
+      debouncedChange.cancel();
+    };
+  }, []);
+
   if (isLoading) return <Spin />;
   if (error) return <Alert message="Failed to load books" type="error" showIcon />;
 
@@ -58,7 +88,6 @@ const UserBooksPage = () => {
       render: (_, record) => (
         record.quantity > 0 ? (
           <Checkbox
-            // disabled={!selectedBooks.includes(id) && selectedBooks.length >= 5}
             checked={selectedBooks.includes(record.id)}
             onChange={(e) => handleCheckboxChange(record.id, e.target.checked)}
           />
@@ -95,15 +124,45 @@ const UserBooksPage = () => {
 
   return (
     <div className="min-h-screen p-8 relative">
-      <Title level={1} className="!mb-4">Books</Title>
-
-      <Button
-        type="primary"
-        className="mb-4"
-        onClick={toggleSelectionMode}
-      >
-        {isSelecting ? 'Cancel Selection' : 'Select Book to Borrow'}
-      </Button>
+      <div className="flex justify-between items-center mb-4">
+        <Title level={1} className="!mb-0">Books</Title>
+        <div className="flex items-center gap-2">
+          <Input
+            placeholder="Search title..."
+            prefix={<SearchOutlined />}
+            value={search}
+            onChange={handleSearchChange}
+            allowClear
+          />
+          <Select
+            placeholder="Filter by category"
+            allowClear
+            value={categoryId}
+            onChange={setCategoryId}
+          >
+            {categories?.map(c => (
+              <Option key={c.id} value={c.id}>{c.name}</Option>
+            ))}
+          </Select>
+          <Select
+            placeholder="Sort title"
+            className="w-[230px]"
+            allowClear
+            value={sortOrder}
+            onChange={setSortOrder}
+          >
+            <Option value="asc">Title A → Z</Option>
+            <Option value="desc">Title Z → A</Option>
+          </Select>
+          <Button
+            type="primary"
+            size="large"
+            onClick={toggleSelectionMode}
+          >
+            {isSelecting ? 'Cancel Selection' : 'Select Book to Borrow'}
+          </Button>
+        </div>
+      </div>
 
       <Table columns={columns} dataSource={data} rowKey="id" />
 

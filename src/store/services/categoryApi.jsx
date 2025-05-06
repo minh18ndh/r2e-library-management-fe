@@ -7,9 +7,12 @@ export const categoryApi = createApi({
   tagTypes: ['Category'],
   endpoints: (builder) => ({
     getCategories: builder.query({
-      query: () => '/categories',
+      query: ({ search = '' } = {}) => ({
+        url: '/categories',
+        params: search ? { search } : {},
+      }),
       providesTags: ['Category'],
-    }),
+    }),    
 
     addCategory: builder.mutation({
       query: (category) => ({

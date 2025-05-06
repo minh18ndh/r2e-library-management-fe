@@ -7,9 +7,16 @@ export const bookApi = createApi({
   tagTypes: ['Book'],
   endpoints: (builder) => ({
     getBooks: builder.query({
-      query: () => '/books',
+      query: ({ search = '', sort = '', categoryId = null } = {}) => ({
+        url: '/books',
+        params: {
+          ...(search && { search }),
+          ...(sort && { sort }),
+          ...(categoryId && { categoryId }),
+        },
+      }),
       providesTags: ['Book'],
-    }),
+    }),    
 
     addBook: builder.mutation({
       query: (book) => ({
