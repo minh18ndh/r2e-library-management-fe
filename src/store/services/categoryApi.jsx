@@ -12,7 +12,7 @@ export const categoryApi = createApi({
         params: search ? { search } : {},
       }),
       providesTags: ['Category'],
-    }),    
+    }),
 
     addCategory: builder.mutation({
       query: (category) => ({

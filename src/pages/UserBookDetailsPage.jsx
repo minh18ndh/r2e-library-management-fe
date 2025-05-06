@@ -19,42 +19,44 @@ const UserBookDetailsPage = () => {
   if (bookError || !book) return <Alert message="Book not found" type="error" showIcon />;
 
   return (
-    <div className="min-h-screen p-8">
-      <Title level={2} className="mb-6">Book Details</Title>
-      <Card style={{ maxWidth: 700 }}>
-        <Typography>
-          <Title level={4}>Title</Title>
-          <Text strong>{book.title}</Text>
+    <div className="min-h-screen flex items-center justify-center p-8">
+      <div className="w-full max-w-2xl">
+        <Title level={2} className="!mb-6 text-center">Book Details</Title>
+        <Card>
+          <Typography>
+            <Title level={4}>Title</Title>
+            <Text strong>{book.title}</Text>
+
+            <Divider />
+
+            <Title level={4}>Author</Title>
+            <Text>{book.author}</Text>
+
+            <Divider />
+
+            <Title level={4}>Category</Title>
+            <Text>{category?.name || 'Unknown'}</Text>
+
+            <Divider />
+
+            <Title level={4}>Description</Title>
+            <Paragraph style={{ whiteSpace: 'pre-wrap' }} ellipsis={false}>
+              {book.description}
+            </Paragraph>
+
+            <Divider />
+
+            <Title level={4}>Available Quantity</Title>
+            <Text>{book.quantity}</Text>
+          </Typography>
 
           <Divider />
 
-          <Title level={4}>Author</Title>
-          <Text>{book.author}</Text>
-
-          <Divider />
-
-          <Title level={4}>Category</Title>
-          <Text>{category?.name || 'Unknown'}</Text>
-
-          <Divider />
-
-          <Title level={4}>Description</Title>
-          <Paragraph style={{ whiteSpace: 'pre-wrap' }} ellipsis={false}>
-            {book.description}
-          </Paragraph>
-
-          <Divider />
-
-          <Title level={4}>Available Quantity</Title>
-          <Text>{book.quantity}</Text>
-        </Typography>
-
-        <Divider />
-
-        <Space>
-          <Button onClick={() => navigate('/books')}>Back to Books</Button>
-        </Space>
-      </Card>
+          <Space>
+            <Button onClick={() => navigate('/books')}>Back to Books</Button>
+          </Space>
+        </Card>
+      </div>
     </div>
   );
 };

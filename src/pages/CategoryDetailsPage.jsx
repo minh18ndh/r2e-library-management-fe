@@ -28,23 +28,30 @@ const CategoryDetailsPage = () => {
   };
 
   return (
-    <div className="min-h-screen p-8">
-      <Title level={2} className="!mb-6">Category Details</Title>
-      <Card className="max-w-xl w-full">
-        <Form layout="vertical" form={form} initialValues={category} onFinish={handleFinish}>
-          <Form.Item name="name" label="Name" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
-          <Form.Item>
-            <Space>
-              <Button type="primary" htmlType="submit" loading={isUpdating}>
-                Save
-              </Button>
-              <Button onClick={() => navigate('/manage-categories')}>Cancel</Button>
-            </Space>
-          </Form.Item>
-        </Form>
-      </Card>
+    <div className="min-h-screen flex justify-center p-8">
+      <div className="w-full max-w-2xl">
+        <Title level={2} className="!mb-6 text-center">Edit Category</Title>
+        <Card>
+          <Form
+            layout="vertical"
+            form={form}
+            initialValues={category}
+            onFinish={handleFinish}
+          >
+            <Form.Item name="name" label="Name" rules={[{ required: true }]}>
+              <Input />
+            </Form.Item>
+            <Form.Item>
+              <Space>
+                <Button type="primary" htmlType="submit" loading={isUpdating}>
+                  Save
+                </Button>
+                <Button onClick={() => navigate('/manage-categories')}>Cancel</Button>
+              </Space>
+            </Form.Item>
+          </Form>
+        </Card>
+      </div>
     </div>
   );
 };
