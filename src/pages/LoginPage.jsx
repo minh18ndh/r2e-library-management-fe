@@ -32,7 +32,7 @@ const LoginPage = () => {
           <Form.Item
             label="Email"
             name="email"
-            rules={[{ required: true, message: 'Please input your email!' }]}
+            rules={[{ required: true, message: 'Please fill your email!' }]}
           >
             <Input size="large" />
           </Form.Item>
@@ -40,7 +40,7 @@ const LoginPage = () => {
           <Form.Item
             label="Password"
             name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
+            rules={[{ required: true, message: 'Please fill your password!' }]}
           >
             <Input.Password size="large" />
           </Form.Item>

@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import RootLayout from './components/RootLayout';
 import ProtectedLayout from './components/ProtectedLayout';
 import LoginPage from './pages/LoginPage';
-import Home from "./pages/Home";
+import HomePage from "./pages/HomePage";
 
 import AdminBooksPage from "./pages/AdminBooksPage";
 import AdminBookDetailsPage from "./pages/AdminBookDetailsPage";
@@ -18,6 +18,7 @@ import ManageBorrowRequestsPage from './pages/ManageBorrowRequestsPage';
 import MyBorrowRequestsPage from './pages/MyBorrowRequestsPage';
 import BorrowRequestDetailsPage from "./pages/BorrowRequestDetailsPage";
 import RegisterPage from "./pages/RegisterPage";
+import RegisterAdminPage from "./pages/RegisterAdminPage";
 
 function App() {
   return (
@@ -34,7 +35,7 @@ function App() {
         <Route path="/" element={<RootLayout />}>
           {/* Routes accessible by both Admin and User */}
           <Route element={<ProtectedLayout allowedRoles={['Admin', 'User']} />}>
-            <Route path="home" element={<Home />} />
+            <Route path="home" element={<HomePage />} />
           </Route>
 
           {/* Admin-only routes */}
@@ -47,6 +48,7 @@ function App() {
             <Route path="manage-categories/create" element={<CreateCategoryPage />} />
             <Route path="manage-borrow-requests" element={<ManageBorrowRequestsPage />} />
             <Route path="manage-borrow-requests/:id" element={<BorrowRequestDetailsPage />} />
+            <Route path="register-admin" element={<RegisterAdminPage />} />
           </Route>
 
           {/* User-only routes */}

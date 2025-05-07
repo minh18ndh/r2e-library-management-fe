@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Layout, Menu, Dropdown, Button, Space } from 'antd';
+import { Layout, Menu, Dropdown, Button } from 'antd';
 import { UserOutlined, LogoutOutlined } from '@ant-design/icons';
 import { getUserRole } from '../utils/auth';
 
@@ -19,7 +19,8 @@ const Header = () => {
     menuItems.push(
       { label: <Link to="/manage-books">Books</Link>, key: 'books' },
       { label: <Link to="/manage-categories">Categories</Link>, key: 'categories' },
-      { label: <Link to="/manage-borrow-requests">Borrow Requests</Link>, key: 'manage-borrow-requests' }
+      { label: <Link to="/manage-borrow-requests">Borrow Requests</Link>, key: 'manage-borrow-requests' },
+      { label: <Link to="/register-admin">Register Admin</Link>, key: 'register-admin' }
     );
   } else if (role === 'User') {
     menuItems.push(

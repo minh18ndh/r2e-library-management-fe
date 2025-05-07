@@ -11,8 +11,8 @@ This is the **frontend** for the Library Management System. It allows:
 
 ### 1. Clone the repo
 ```bash
-git clone https://github.com/minh18ndh/r2e-library-management-fe.git
-cd r2e-library-management-fe
+git clone https://github.com/minh18ndh/r2e-library-management.git
+cd r2e-library-management/library-management-frontend
 ```
 
 ### 2. Install dependencies
@@ -24,7 +24,7 @@ npm install
 
 By default, this app connects to:
 ```ts
-https://6eb7-14-232-74-239.ngrok-free.app/api
+https://c8b2-14-232-74-239.ngrok-free.app/api
 ```
 
 If you're testing locally, open `src/store/baseQueryWithRefresh.js` and update the `baseUrl`.
@@ -45,11 +45,11 @@ Then go to:
 
 - Uses **JWT** for authentication.
 - Stores tokens in `localStorage`
-- Automatically refreshes expired access tokens using the refresh token (handled in RTK Query middleware).
+- Automatically refreshes expired access tokens using the refresh token.
 - You’ll be redirected to `/login` if not authenticated.
 
 ---
 
 ## Test Accounts
 
-You can register as user via `/register` or login as admin using email: `admin@1` + password: `admin`.
+You can register as user via `/register` or login as admin using email: `admin@1` + password: `string`.

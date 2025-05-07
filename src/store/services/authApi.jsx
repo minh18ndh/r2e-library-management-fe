@@ -25,10 +25,19 @@ export const authApi = createApi({
         body: userData,
       }),
     }),
+
+    registerAdmin: builder.mutation({
+      query: (userData) => ({
+        url: '/auth/register-admin',
+        method: 'POST',
+        body: userData,
+      }),
+    }),
   }),
 });
 
 export const {
   useLoginMutation,
   useRegisterMutation,
+  useRegisterAdminMutation,
 } = authApi;

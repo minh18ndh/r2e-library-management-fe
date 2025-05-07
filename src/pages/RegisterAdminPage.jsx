@@ -1,19 +1,19 @@
 import React from 'react';
 import { Button, Form, Input, Typography, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { useRegisterMutation } from '../store/services/authApi';
+import { useRegisterAdminMutation } from '../store/services/authApi';
 
 const { Text } = Typography;
 
-const RegisterPage = () => {
+const RegisterAdminPage = () => {
   const navigate = useNavigate();
-  const [register, { isLoading }] = useRegisterMutation();
+  const [register, { isLoading }] = useRegisterAdminMutation();
 
   const onFinish = async (values) => {
     try {
       await register(values).unwrap();
-      message.success('Registration successful. Please log in.');
-      navigate('/login');
+      message.success('Registration successful');
+      navigate('/home');
     } catch (err) {
       const detail = err?.data?.errors?.[0]?.detail;
       message.error(detail || 'Registration failed');
@@ -25,13 +25,13 @@ const RegisterPage = () => {
       <h1 className="text-white text-5xl font-bold mb-20">MAISON DES LIVRES</h1>
 
       <div className="w-full max-w-[450px] bg-white p-6 rounded-xl shadow-lg">
-        <h2 className="text-2xl font-semibold text-center mb-6">Register</h2>
+        <h2 className="text-2xl font-semibold text-center mb-6">Register an Admin Account</h2>
 
         <Form name="register" onFinish={onFinish} layout="vertical" autoComplete="off">
           <Form.Item
             label="Full Name"
             name="fullName"
-            rules={[{ required: true, message: 'Please fill your full name!' }]}
+            rules={[{ required: true, message: 'Please fill full name!' }]}
           >
             <Input size="large" />
           </Form.Item>
@@ -39,7 +39,7 @@ const RegisterPage = () => {
           <Form.Item
             label="Email"
             name="email"
-            rules={[{ required: true, message: 'Please fill your email!' }]}
+            rules={[{ required: true, message: 'Please fill email!' }]}
           >
             <Input size="large" />
           </Form.Item>
@@ -47,7 +47,7 @@ const RegisterPage = () => {
           <Form.Item
             label="Password"
             name="password"
-            rules={[{ required: true, message: 'Please fill your password!' }]}
+            rules={[{ required: true, message: 'Please fill password!' }]}
           >
             <Input.Password size="large" />
           </Form.Item>
@@ -65,20 +65,9 @@ const RegisterPage = () => {
             </Button>
           </Form.Item>
         </Form>
-
-        <div className="text-center mt-4">
-          <Text>Already have an account? </Text>
-          <Button
-            type="link"
-            className="p-0 !text-[#1e1e2f] hover:!text-[#61616d] font-semibold"
-            onClick={() => navigate('/login')}
-          >
-            Log in here
-          </Button>
-        </div>
       </div>
     </div>
   );
 };
 
-export default RegisterPage;
+export default RegisterAdminPage;
