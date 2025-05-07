@@ -23,7 +23,12 @@ const CategoryDetailsPage = () => {
       message.success('Category updated successfully');
       navigate('/manage-categories');
     } catch (err) {
-      message.error('Failed to update category');
+      const detail =
+        err?.data?.errors?.[0]?.detail ||
+        Object.values(err?.data?.errors || {})[0]?.[0] ||
+        err?.data?.title ||
+        'Failed to update category';
+      message.error(detail);
     }
   };
 

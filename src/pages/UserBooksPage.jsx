@@ -57,8 +57,12 @@ const UserBooksPage = () => {
       setSelectedBooks([]);
       setConfirmBorrowVisible(false);
     } catch (err) {
-      const detail = err?.data?.errors?.[0]?.detail;
-      message.error(detail || 'Failed to submit borrow request');
+      const detail =
+        err?.data?.errors?.[0]?.detail ||
+        Object.values(err?.data?.errors || {})[0]?.[0] ||
+        err?.data?.title ||
+        'Failed to submit borrow request';
+      message.error(detail);
     }
   };
 

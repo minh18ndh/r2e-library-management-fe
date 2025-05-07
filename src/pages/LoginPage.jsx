@@ -16,8 +16,12 @@ const LoginPage = () => {
       message.success('Login successful');
       navigate('/home');
     } catch (err) {
-      const detail = err?.data?.errors?.[0]?.detail;
-      message.error(detail || 'Login failed');
+      const detail =
+        err?.data?.errors?.[0]?.detail ||
+        Object.values(err?.data?.errors || {})[0]?.[0] ||
+        err?.data?.title ||
+        'Login failed';
+      message.error(detail);
     }
   };
 

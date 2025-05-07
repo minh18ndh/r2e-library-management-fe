@@ -15,8 +15,12 @@ const RegisterAdminPage = () => {
       message.success('Registration successful');
       navigate('/home');
     } catch (err) {
-      const detail = err?.data?.errors?.[0]?.detail;
-      message.error(detail || 'Registration failed');
+      const detail =
+        err?.data?.errors?.[0]?.detail ||
+        Object.values(err?.data?.errors || {})[0]?.[0] ||
+        err?.data?.title ||
+        'Registration failed';
+      message.error(detail);
     }
   };
 

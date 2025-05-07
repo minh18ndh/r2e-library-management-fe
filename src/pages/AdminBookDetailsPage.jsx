@@ -25,8 +25,13 @@ const AdminBookDetailsPage = () => {
       await updateBook({ id: book.id, ...values }).unwrap();
       message.success('Book updated successfully');
       navigate('/manage-books');
-    } catch {
-      message.error('Failed to update book');
+    } catch (err) {
+      const detail =
+          err?.data?.errors?.[0]?.detail || // custom format
+          Object.values(err?.data?.errors || {})[0]?.[0] || // ASP.NET validation format
+          err?.data?.title || // fallback to title
+          'Failed to update book';
+      message.error(detail);
     }
   };
 

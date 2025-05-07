@@ -15,7 +15,12 @@ const CreateCategoryPage = () => {
       message.success('Category created successfully');
       navigate('/manage-categories');
     } catch (err) {
-      message.error('Failed to create category');
+      const detail =
+        err?.data?.errors?.[0]?.detail ||
+        Object.values(err?.data?.errors || {})[0]?.[0] ||
+        err?.data?.title ||
+        'Failed to create category';
+      message.error(detail);
     }
   };
 

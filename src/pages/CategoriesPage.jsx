@@ -27,8 +27,12 @@ const CategoriesPage = () => {
         await deleteCategory(selectedId).unwrap();
         message.success('Category deleted successfully');
       } catch (err) {
-        const detail = err?.data?.errors?.[0]?.detail;
-        message.error(detail || 'Failed to delete category');
+        const detail =
+          err?.data?.errors?.[0]?.detail ||
+          Object.values(err?.data?.errors || {})[0]?.[0] ||
+          err?.data?.title ||
+          'Failed to delete category';
+        message.error(detail);
       }
       setOpen(false);
       setSelectedId(null);

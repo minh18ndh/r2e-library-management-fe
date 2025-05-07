@@ -18,7 +18,12 @@ const CreateBookPage = () => {
       message.success('Book created successfully');
       navigate('/manage-books');
     } catch (err) {
-      message.error('Failed to create book');
+      const detail =
+        err?.data?.errors?.[0]?.detail ||
+        Object.values(err?.data?.errors || {})[0]?.[0] ||
+        err?.data?.title ||
+        'Failed to create book';
+      message.error(detail);
     }
   };
 

@@ -24,7 +24,12 @@ const ManageBorrowRequestsPage = () => {
       await refetchBooks();
       message.success(`Request ${statusMap[status].label.toLowerCase()} successfully`);
     } catch {
-      message.error('Failed to update request status');
+      const detail =
+        err?.data?.errors?.[0]?.detail ||
+        Object.values(err?.data?.errors || {})[0]?.[0] ||
+        err?.data?.title ||
+        'Failed to update request status';
+      message.error(detail);
     }
   };
 
@@ -47,7 +52,7 @@ const ManageBorrowRequestsPage = () => {
           second: '2-digit',
           hour12: false
         }).replace(',', '');
-      }  
+      }
     },
     {
       title: 'Requestor',
